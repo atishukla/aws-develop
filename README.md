@@ -13,6 +13,17 @@ This will contain learning for development on aws
 (venv) atishukla@atishay:~$ sam --version
 SAM CLI, version 1.10.0
 ```
+- Create a IAM user with Pragmatic access and configure aws client
+This is used for testing
+```
+(venv) atishukla@atishay:~/projects/aws-develop$ aws configure
+AWS Access Key ID [None]: <key>
+AWS Secret Access Key [None]: <key>
+Default region name [None]: eu-west-2
+Default output format [None]: json
+(venv) atishukla@atishay:~/projects/aws-develop$
+```
+- Actual lambda will use the role we specify in template.yaml
 
 ### Steps
 
@@ -49,3 +60,6 @@ Output Directory: .
 
 Next steps can be found in the README file at ./serverless/README.md
 ```
+
+- Step 3: Edit template.yaml as per your folder and function
+Reference : https://github.com/aws/serverless-application-model/blob/master/versions/2016-10-31.md
