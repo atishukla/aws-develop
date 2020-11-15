@@ -107,3 +107,12 @@ START RequestId: 452d2f9c-46cc-172c-876c-f8e8559fc7af Version: $LATEST
 END RequestId: 452d2f9c-46cc-172c-876c-f8e8559fc7af
 REPORT RequestId: 452d2f9c-46cc-172c-876c-f8e8559fc7af  Init Duration: 622.13 ms        Duration: 261.42 ms     Billed Duration: 300 ms Memory Size: 128 MB     Max Memory Used: 51 MB
 ```
+
+- Test the API gateway
+```
+(venv) atishukla@atishay:~/projects/aws-develop/serverless$ sam local start-api
+Mounting GetEc2RegionsFunction at http://127.0.0.1:3000/getec2regions [GET]
+You can now browse to the above endpoints to invoke your functions. You do not need to restart/reload SAM CLI while working on your functions, changes will be reflected instantly/automatically. You only need to restart SAM CLI if you update your AWS SAM template
+2020-11-15 21:59:45  * Running on http://127.0.0.1:3000/ (Press CTRL+C to quit)
+```
+- Navigate to the endpoint and you will see all the regions
