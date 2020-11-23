@@ -116,3 +116,14 @@ You can now browse to the above endpoints to invoke your functions. You do not n
 2020-11-15 21:59:45  * Running on http://127.0.0.1:3000/ (Press CTRL+C to quit)
 ```
 - Navigate to the endpoint and you will see all the regions
+
+- Step 5: Package and deploy to AWS
+We give S3 bucket for packging and added role for S3 to our role
+
+```
+sam package --template-file template.yaml --output-template-file deploy.yaml --s3-bucket atishay-sam-bucket
+```
+- Step 6 :
+```
+sam deploy --capabilities CAPABILITY_IAM --template-file deploy.yaml --stack-name SAMLamdaTestStack
+```
