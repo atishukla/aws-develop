@@ -12,7 +12,7 @@ table.put_item(
     Item={
         'PK': f'ORG#{orgId}',
         'SK': f'#METADATA#{orgId}',
-        'name': 'Test Company',
-        'tier': 'free-tier'
+        'name': 'ABC Company',
+        'tier': 'professional'
     }
 )
