@@ -70,8 +70,22 @@ def edit_organisation():
     )
 
 
+# Queries
+
+def get_organisation():
+    table = dynamodb.Table('dynamo-test')
+    response = table.get_item(
+        Key={
+            'PK': 'ORG#0eb258f8-5d2c-425a-972a-acfb6c808fba',
+            'SK': '#METADATA#0eb258f8-5d2c-425a-972a-acfb6c808fba'
+        }
+    )
+    item = response['Item']
+    print(item)
+
+
 def main():
-    create_fixed_bid_project()
+    get_organisation()
 
 
 if __name__ == "__main__":
