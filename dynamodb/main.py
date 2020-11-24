@@ -1,6 +1,7 @@
 import boto3
 import uuid
 import pprint
+from datetime import datetime, timezone
 from boto3.dynamodb.conditions import Key, Attr
 
 # Get the service resource.
@@ -35,6 +36,46 @@ def create_project():
             'SK': f'PRO#agile#{project_id}',
             'name': 'Project Y',
             'project_id': project_id
+        }
+    )
+
+
+def create_employees():
+    # 2. Create an agile project in the organisation
+
+    abc_company_id = '0eb258f8-5d2c-425a-972a-acfb6c808fba'
+    jane = str(uuid.uuid4())
+
+    table = dynamodb.Table('dynamo-test')
+    table.put_item(
+        Item={
+            'PK': f'ORG#{abc_company_id}',
+            'SK': f'EMP#{jane}',
+            'name': 'Jane Tuck',
+            'email': 'jane@test.com'
+        }
+    )
+
+
+def assign_employee_to_project():
+
+    abc_company_id = '0eb258f8-5d2c-425a-972a-acfb6c808fba'
+    project_x = '047e37cc-0987-47d4-bc9e-29cbdfe375bf'
+    project_y = 'bcd5976e-173d-4445-a796-26b69bfff068'
+    project_f = 'b3d87035-51f4-4a4a-a236-1dbd10fb383f'
+
+    atishay = '2262ced5-e0d4-4137-81e2-faab82f5ef5b'
+    john = ''
+    jane = ''
+
+    table = dynamodb.Table('dynamo-test')
+    table.put_item(
+        Item={
+            'PK': f'ORG#{abc_company_id}#PRO#{project_x}',
+            'SK': f'ORG#{abc_company_id}#EMP#{atishay}',
+            'name': 'Atishay Shukla',
+            'project': 'Project X',
+            'date_of_join': datetime.now(timezone.utc).strftime('%c')
         }
     )
 
@@ -97,7 +138,7 @@ def get_all_projects_of_ABC_company():
 
 
 def main():
-    get_all_projects_of_ABC_company()
+    assign_employee_to_project()
 
 
 if __name__ == "__main__":
