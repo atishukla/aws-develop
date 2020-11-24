@@ -65,16 +65,16 @@ def assign_employee_to_project():
     project_f = 'b3d87035-51f4-4a4a-a236-1dbd10fb383f'
 
     atishay = '2262ced5-e0d4-4137-81e2-faab82f5ef5b'
-    john = ''
-    jane = ''
+    john = 'fa5eeee9-a9e5-45ac-9f41-a70fc1c5644c'
+    jane = '6536d054-e2e5-4b3b-891c-4395f66181bc'
 
     table = dynamodb.Table('dynamo-test')
     table.put_item(
         Item={
-            'PK': f'ORG#{abc_company_id}#PRO#{project_x}',
-            'SK': f'ORG#{abc_company_id}#EMP#{atishay}',
-            'name': 'Atishay Shukla',
-            'project': 'Project X',
+            'PK': f'ORG#{abc_company_id}#PRO#{project_y}',
+            'SK': f'ORG#{abc_company_id}#EMP#{jane}',
+            'name': 'Jane Tuck',
+            'project': 'Project Y',
             'date_of_join': datetime.now(timezone.utc).strftime('%c')
         }
     )
@@ -137,8 +137,34 @@ def get_all_projects_of_ABC_company():
     pprint.pprint(items)
 
 
+def get_employees_for_project_x():
+    abc_company_id = '0eb258f8-5d2c-425a-972a-acfb6c808fba'
+    project_x = '047e37cc-0987-47d4-bc9e-29cbdfe375bf'
+    table = dynamodb.Table('dynamo-test')
+    response = table.query(
+        KeyConditionExpression=Key('PK').eq(
+            f'ORG#{abc_company_id}#PRO#{project_x}')
+    )
+    items = response['Items']
+    pprint.pprint(items)
+
+
+def get_project_employee_is_part_of():
+    # Using inverted index
+    atishay = '2262ced5-e0d4-4137-81e2-faab82f5ef5b'
+    abc_company_id = '0eb258f8-5d2c-425a-972a-acfb6c808fba'
+    table = dynamodb.Table('dynamo-test')
+    response = table.query(
+        IndexName='Project-employee-index',             # using secondary index
+        KeyConditionExpression=Key('SK').eq(            # Use SK as this is now the Primary key for inverted index
+            f'ORG#{abc_company_id}#EMP#{atishay}')
+    )
+    items = response['Items']
+    pprint.pprint(items)
+
+
 def main():
-    assign_employee_to_project()
+    get_project_employee_is_part_of()
 
 
 if __name__ == "__main__":
