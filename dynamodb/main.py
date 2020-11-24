@@ -1,5 +1,7 @@
 import boto3
 import uuid
+import pprint
+from boto3.dynamodb.conditions import Key, Attr
 
 # Get the service resource.
 dynamodb = boto3.resource('dynamodb')
@@ -74,7 +76,7 @@ def edit_organisation():
 
 def get_organisation():
     table = dynamodb.Table('dynamo-test')
-    response = table.get_item(
+    response = table.get_item(              # we use get because we expect a single result
         Key={
             'PK': 'ORG#0eb258f8-5d2c-425a-972a-acfb6c808fba',
             'SK': '#METADATA#0eb258f8-5d2c-425a-972a-acfb6c808fba'
@@ -84,8 +86,18 @@ def get_organisation():
     print(item)
 
 
+def get_all_projects_of_ABC_company():
+    table = dynamodb.Table('dynamo-test')
+    response = table.query(
+        KeyConditionExpression=Key('PK').eq(
+            'ORG#0eb258f8-5d2c-425a-972a-acfb6c808fba') & Key('SK').begins_with('PRO#')
+    )
+    items = response['Items']
+    pprint.pprint(items)
+
+
 def main():
-    get_organisation()
+    get_all_projects_of_ABC_company()
 
 
 if __name__ == "__main__":
