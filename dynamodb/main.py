@@ -31,14 +31,47 @@ def create_project():
         Item={
             'PK': f'ORG#{test_company_org_id}',
             'SK': f'PRO#agile#{project_id}',
-            'name': 'Project X',
+            'name': 'Project Y',
             'project_id': project_id
         }
     )
 
 
+def create_fixed_bid_project():
+    # 2. Create an Fixed bid project in the organisation
+
+    test_company_org_id = 'a5a28161-14f7-480b-888a-a94e72bf8208'
+    project_id = str(uuid.uuid4())
+
+    table = dynamodb.Table('dynamo-test')
+    table.put_item(
+        Item={
+            'PK': f'ORG#{test_company_org_id}',
+            'SK': f'PRO#fixed-bid#{project_id}',
+            'name': 'Project B',
+            'project_id': project_id
+        }
+    )
+
+
+def edit_organisation():
+    test_company_org_id = 'a5a28161-14f7-480b-888a-a94e72bf8208'
+    table = dynamodb.Table('dynamo-test')
+    table.update_item(
+        Key={
+            'PK': f'ORG#{test_company_org_id}',
+            'SK': f'#METADATA#{test_company_org_id}'
+        },
+        UpdateExpression='SET #org_id = :org_id',
+        ExpressionAttributeNames={'#org_id': 'org_id'},
+        ExpressionAttributeValues={
+            ':org_id': test_company_org_id
+        }
+    )
+
+
 def main():
-    create_project()
+    create_fixed_bid_project()
 
 
 if __name__ == "__main__":
